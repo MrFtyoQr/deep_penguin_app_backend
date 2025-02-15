@@ -15,8 +15,8 @@ class StudyGuideRepositoryImplementation(StudyGuideRepository):
         study_guide_txt = self.gemini_service.generate_study_guide(topic)
 
         try:
-            study_guide_data = json.loads(study_guide_txt)  # Convertir string a dict
-            return StudyGuide()  # Mapear al modelo
+            study_guide_data = json.loads(study_guide_txt)
+            return StudyGuide(**study_guide_data)
         except (json.JSONDecodeError, TypeError) as e:
             raise ValueError(f"Invalid response from Gemini API: {e}")
 

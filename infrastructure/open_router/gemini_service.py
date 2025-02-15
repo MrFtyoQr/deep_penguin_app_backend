@@ -27,7 +27,10 @@ class GeminiService:
                     "content": [
                         {
                             "type": "text",
-                            "text": f"Generate a study guide about: {topic}"
+                            "text": f"Genera una guía de estudio en formato JSON basada en el tema: {topic}. el key:text del objeto principal debe ser un texto que ayude a responder las preguntas \
+                                    El JSON debe seguir esta estructura:\n\n\
+                                    {{'text': str, 'questions': list[{{'text': str, 'options': list[{{'index': int, 'text': str}}], 'correct_answer': {{'index': int, 'text': str}} }}]}}\n\n\
+                                    Devuelve solo el JSON sin explicaciones ni texto adicional,sin marcas de formato como '```json`'."
                         }
                     ]
                 }
@@ -38,7 +41,7 @@ class GeminiService:
             
             response = requests.post(self.api_url, headers=headers, json=payload)
             response.raise_for_status()
-            print(response.json())
-            return json.dumps(response.json(), indent=4)
+            text_response = response.json()["choices"][0]["message"]["content"]
+            return text_response.replace("```json", "").replace("```", "").strip()
         except requests.exceptions.RequestException as e:
             return json.dumps({"error": str(e)})
