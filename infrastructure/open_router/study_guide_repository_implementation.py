@@ -1,6 +1,5 @@
-
-
 from typing import Annotated
+import json
 
 from fastapi import Depends
 from data.study_guide_repository import StudyGuideRepository
@@ -15,12 +14,19 @@ class StudyGuideRepositoryImplementation(StudyGuideRepository):
     def get_study_guide(self, topic: str) -> StudyGuide:
         study_guide_txt = self.gemini_service.generate_study_guide(topic)
 
-        return StudyGuide(title=topic, content=study_guide_txt)
-        
+        try:
+            study_guide_data = json.loads(study_guide_txt)  # Convertir string a dict
+            return StudyGuide()  # Mapear al modelo
+        except (json.JSONDecodeError, TypeError) as e:
+            raise ValueError(f"Invalid response from Gemini API: {e}")
 
-def get_study_guide_repository(gemini_service: GeminiService) -> StudyGuideRepository:
+
+def get_study_guide_repository(
+    gemini_service: Annotated[GeminiService, Depends()]
+) -> StudyGuideRepository:
     return StudyGuideRepositoryImplementation(gemini_service)
 
+
 StudyGuideRepositoryDependency = Annotated[
-    StudyGuideRepositoryImplementation, Depends(get_study_guide_repository)
+    StudyGuideRepository, Depends(get_study_guide_repository)
 ]
