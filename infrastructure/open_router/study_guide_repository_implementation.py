@@ -11,8 +11,8 @@ class StudyGuideRepositoryImplementation(StudyGuideRepository):
     def __init__(self, gemini_service: GeminiService):
         self.gemini_service = gemini_service
 
-    def get_study_guide(self, topic: str) -> StudyGuide:
-        study_guide_txt = self.gemini_service.generate_study_guide(topic)
+    def get_study_guide(self, topic: str, level: str, style: str) -> StudyGuide:
+        study_guide_txt = self.gemini_service.generate_study_guide(topic, level, style)
 
         try:
             study_guide_data = json.loads(study_guide_txt)
