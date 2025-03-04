@@ -3,16 +3,16 @@ import json
 
 from fastapi import Depends
 from data.study_guide_repository import StudyGuideRepository
-from infrastructure.open_router.deepseek_service import DeepseekService
+from infrastructure.open_router.gemini_service import GeminiService
 from models.study_guide import StudyGuide
 
 
 class StudyGuideRepositoryImplementation(StudyGuideRepository):
-    def __init__(self, deepseek_service: DeepseekService):
-        self.deepseek_service = deepseek_service
+    def __init__(self, gemini_service: GeminiService):
+        self.gemini_service = gemini_service
 
     def get_study_guide(self, topic: str, level: str, style: str) -> StudyGuide:
-        study_guide_txt = self.deepseek_service.generate_study_guide(topic, level, style)
+        study_guide_txt = self.gemini_service.generate_study_guide(topic, level, style)
 
         try:
             study_guide_data = json.loads(study_guide_txt)
@@ -22,9 +22,9 @@ class StudyGuideRepositoryImplementation(StudyGuideRepository):
 
 
 def get_study_guide_repository(
-    deepseek_service: Annotated[DeepseekService, Depends()]
+    gemini_service: Annotated[GeminiService, Depends()]
 ) -> StudyGuideRepository:
-    return StudyGuideRepositoryImplementation(deepseek_service)
+    return StudyGuideRepositoryImplementation(gemini_service)
 
 
 StudyGuideRepositoryDependency = Annotated[
