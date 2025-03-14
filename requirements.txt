@@ -2,3 +2,6 @@ fastapi[standard]
 pydantic
 uvicorn
 requests
+python-jose
+auth0-python
+pymongo

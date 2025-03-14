@@ -3,7 +3,11 @@ from typing import Union
 from fastapi import FastAPI
 from api.study_guide import router as study_guide_router
 from api.healthcheck import router as healthcheck_router
+from dotenv import load_dotenv
+import os
 
+# Load environment variables from .env file
+load_dotenv()
 
 app = FastAPI()
 
