@@ -5,7 +5,7 @@ from infrastructure.auth.auth0 import verify_token
 
 router = APIRouter()
 
-@router.get("/study-guide/{topic}/{level}/{style}", dependencies=[Depends(verify_token)])
+@router.get("/study-guide/", dependencies=[Depends(verify_token)])
 def get_study_guide(
     topic: str, 
     level: str, 
@@ -25,7 +25,7 @@ def save_study_guide(
     user_id = token["sub"]
     return study_guide_service.save_study_guide(user_id, study_guide)
 
-@router.delete("/study-guide/{topic}/{level}/{style}", dependencies=[Depends(verify_token)])
+@router.delete("/study-guide/", dependencies=[Depends(verify_token)])
 def delete_study_guide(
     topic: str, 
     level: str, 
