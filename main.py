@@ -14,7 +14,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://deep-penguin.vercel.app/"],  # ⚠️ Cambia "*" por el dominio de tu frontend en producción
+    allow_origins=["https://deep-penguin.vercel.app"],  # ⚠️ Cambia "*" por el dominio de tu frontend en producción
     allow_credentials=True,
     allow_methods=["*"],  # Permite todos los métodos (GET, POST, PUT, DELETE, etc.)
     allow_headers=["*"],  # Permite todos los headers
