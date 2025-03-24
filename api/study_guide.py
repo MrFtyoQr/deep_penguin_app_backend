@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends
 from services.study_guide_service import StudyGuideServiceDependency
 from models.study_guide import StudyGuide
-from infrastructure.auth.auth0 import verify_token
 
 router = APIRouter()
 
